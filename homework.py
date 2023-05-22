@@ -22,9 +22,9 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
 
-    LEN_STEP: float = 0.65
-    M_IN_KM: float = 1000
-    MIN_IN_HOUR: int = 60
+    LEN_STEP = 0.65
+    M_IN_KM = 1000
+    MIN_IN_HOUR = 60
 
     action: int
     duration: float
