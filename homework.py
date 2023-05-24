@@ -9,11 +9,11 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    final_result = ('Тип тренировки: {}; '
-                    'Длительность: {:.3f} ч.; '
-                    'Дистанция: {:.3f} км; '
-                    'Ср. скорость: {:.3f} км/ч; '
-                    'Потрачено ккал: {:.3f}.')
+    MESSAGE_TRAINING_RESULT = ('Тип тренировки: {}; '
+                               'Длительность: {:.3f} ч.; '
+                               'Дистанция: {:.3f} км; '
+                               'Ср. скорость: {:.3f} км/ч; '
+                               'Потрачено ккал: {:.3f}.')
 
     def get_message(self) -> str:
         """Возвращает информацию с данными о тренировке.
@@ -22,8 +22,7 @@ class InfoMessage:
         тренировки в виде кортежа со всеми необходимыми данными,
         распаковывает его и подставляет необходимую информацию.
         """
-        datas_in_tuple = astuple(self)
-        return self.final_result.format(*datas_in_tuple)
+        return self.MESSAGE_TRAINING_RESULT.format(*(astuple(self)))
 
 
 @dataclass
@@ -116,20 +115,15 @@ def read_package(workout_type: str, data: list[int]) -> Training:
         "RUN": Running,
         "WLK": SportsWalking
     }
+    check_dict = {"SWM": 5, "RUN": 3, "WLK": 4}
     if workout_type not in training_dict:
         raise ValueError(f'Введен не предусмотренный тип: {workout_type}. '
                          'Фитнес-трекер обрабатывает '
-                         'значения для трех видов тренировок: '
-                         'бег, спортивная ходьба и плавание. '
+                         'значения для следующих видов тренировок: '
+                         f'{", ".join(training_dict)}. '
                          'Пожалуйста, удостоверьтесь, что '
                          'выбран один из указанных видов спорта.')
-    if workout_type == 'SWM' and len(data) != 5:
-        raise ValueError('Отсутствуют все данные, '
-                         'необходимые для исчислений.')
-    elif workout_type == 'RUN' and len(data) != 3:
-        raise ValueError('Отсутствуют все данные, '
-                         'необходимые для исчислений.')
-    elif workout_type == 'WLK' and len(data) != 4:
+    if len(data) != check_dict[workout_type]:
         raise ValueError('Отсутствуют все данные, '
                          'необходимые для исчислений.')
     return training_dict[workout_type](*data)
