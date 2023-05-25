@@ -111,22 +111,22 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
     training_dict = {
-        "SWM": Swimming,
-        "RUN": Running,
-        "WLK": SportsWalking
+        "SWM": {'class_name': Swimming, 'quantity_args': 5},
+        "RUN": {'class_name': Running, 'quantity_args': 3},
+        "WLK": {'class_name': SportsWalking, 'quantity_args': 4}
     }
-    check_dict = {"SWM": 5, "RUN": 3, "WLK": 4}
+    available_trainings = ", ".join(training_dict)
     if workout_type not in training_dict:
         raise ValueError(f'Введен не предусмотренный тип: {workout_type}. '
                          'Фитнес-трекер обрабатывает '
                          'значения для следующих видов тренировок: '
-                         f'{", ".join(training_dict)}. '
+                         f'{available_trainings}. '
                          'Пожалуйста, удостоверьтесь, что '
                          'выбран один из указанных видов спорта.')
-    if len(data) != check_dict[workout_type]:
+    if len(data) != training_dict[workout_type]['quantity_args']:
         raise ValueError('Отсутствуют все данные, '
                          'необходимые для исчислений.')
-    return training_dict[workout_type](*data)
+    return training_dict[workout_type]['class_name'](*data)
 
 
 def main(training: Training) -> None:
