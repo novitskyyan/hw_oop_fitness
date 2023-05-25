@@ -115,8 +115,8 @@ def read_package(workout_type: str, data: list[int]) -> Training:
         "RUN": {'class_name': Running, 'quantity_args': 3},
         "WLK": {'class_name': SportsWalking, 'quantity_args': 4}
     }
-    available_trainings = ", ".join(training_dict)
     if workout_type not in training_dict:
+        available_trainings = ", ".join(training_dict)
         raise ValueError(f'Введен не предусмотренный тип: {workout_type}. '
                          'Фитнес-трекер обрабатывает '
                          'значения для следующих видов тренировок: '
